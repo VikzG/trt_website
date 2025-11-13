@@ -19,6 +19,12 @@
   mix-blend-mode: difference;
 }
 
+@media (max-width: 1024px) {
+  .sound-cursor {
+    display: none !important;
+  }
+}
+
 .sound-wave {
   position: fixed;
   width: 80px;
