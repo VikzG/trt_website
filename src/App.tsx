@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Music,
   Mic,
@@ -7,22 +7,43 @@ import {
   Menu,
   X,
   Play,
-  Volume2,
-  Pause,
-  RotateCcw,
 } from "lucide-react";
+import portfolioData from "./components/portfolioData";
+import { PortfolioCard } from "./components/PortfolioCard";
+import { SoundModal } from "./components/SoundModal";
+
+interface ModalData {
+  videoFile: string;
+  soundFile: string;
+  title: string;
+  client: string;
+  type: string;
+}
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [currentAudioSrc, setCurrentAudioSrc] = useState<string>("");
-  const [audioDurations, setAudioDurations] = useState<{
-    [key: string]: string;
-  }>({});
-  const [audioProgress, setAudioProgress] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState<ModalData | null>(null);
+
+  const openModal = (item: any) => {
+    // Normalize incoming PortfolioItem (or similar) into ModalData shape
+    const data: ModalData = {
+      videoFile: item.videoFile ?? item.video ?? "",
+      soundFile: item.audioFile ?? item.audio ?? "",
+      title: item.title ?? item.name ?? "",
+      client: item.client ?? "",
+      type: item.type ?? "",
+    };
+    setModalData(data);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setModalData(null), 300);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -46,92 +67,6 @@ function App() {
       setIsMenuOpen(false);
     }
   };
-
-  const loadAudioDuration = (audioFile: string) => {
-    if (audioDurations[audioFile]) return;
-
-    // Créer un nouvel élément audio temporaire
-    const tempAudio = new Audio();
-
-    const handleMetadata = () => {
-      const minutes = Math.floor(tempAudio.duration / 60);
-      const seconds = Math.floor(tempAudio.duration % 60);
-      const formatted =
-        tempAudio.duration < 60
-          ? `${seconds} sec`
-          : `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
-      setAudioDurations((prev) => ({ ...prev, [audioFile]: formatted }));
-      tempAudio.removeEventListener("loadedmetadata", handleMetadata);
-    };
-
-    tempAudio.addEventListener("loadedmetadata", handleMetadata);
-    tempAudio.src = audioFile;
-    tempAudio.load();
-  };
-
-  const handlePlayPause = (index: number, audioFile: string) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (playingIndex === index) {
-      audio.pause();
-      setPlayingIndex(null);
-      setAudioProgress(0);
-    } else {
-      if (currentAudioSrc !== audioFile) {
-        audio.src = audioFile;
-        setCurrentAudioSrc(audioFile);
-        setAudioProgress(0);
-      }
-      audio.play().catch((err) => {
-        console.warn("Audio playback failed:", err);
-      });
-      setPlayingIndex(index);
-    }
-  };
-
-  const handleRestart = (index: number, audioFile: string) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (currentAudioSrc !== audioFile) {
-      audio.src = audioFile;
-      setCurrentAudioSrc(audioFile);
-    }
-
-    audio.currentTime = 0;
-    setAudioProgress(0);
-    audio.play().catch((err) => {
-      console.warn("Audio playback failed:", err);
-    });
-    setPlayingIndex(index);
-  };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleAudioEnd = () => {
-      setPlayingIndex(null);
-      setAudioProgress(0);
-    };
-
-    const handleTimeUpdate = () => {
-      if (audio.duration) {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        setAudioProgress(progress);
-      }
-    };
-
-    audio.addEventListener("ended", handleAudioEnd);
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      audio.removeEventListener("ended", handleAudioEnd);
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, []);
 
   const services = [
     {
@@ -189,7 +124,7 @@ function App() {
               L.A.S.
             </div>
 
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {["Services", "Portfolio", "Présentation", "Contact"].map(
                 (item) => (
                   <button
@@ -249,7 +184,7 @@ function App() {
               L.A.S.
             </h1>
             <p className="text-3xl md:text-4xl text-gray-300 mb-8 font-light animate-fade-in-up delay-200">
-              Les Artisans Sonore
+              Les Artisans Sonores
             </p>
             <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
               Affirmez vos valeurs grâce à nos créations musicales sur mesure
@@ -311,177 +246,26 @@ function App() {
       </section>
 
       <section id="portfolio" className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4">
-              Nos Créations
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Découvrez quelques exemples de nos compositions sonores
-            </p>
-          </div>
+        <div className="text-center mb-16">
+          {" "}
+          <h2 className="text-5xl font-bold text-gray-900 mb-4">
+            {" "}
+            Nos Créations{" "}
+          </h2>{" "}
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            {" "}
+            Découvrez quelques exemples de nos compositions sonores{" "}
+          </p>{" "}
+        </div>
 
-          <audio ref={audioRef} />
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {(() => {
-              const sounds = [
-                {
-                  title: "ADN Sonore 1",
-                  client: "Entreprise Tech",
-                  audioFile: "/audio/ADN_sonore_1.wav",
-                  type: "ADN Sonore",
-                },
-                {
-                  title: "ADN Sonore 2",
-                  client: "Entreprise Tech",
-                  audioFile: "/audio/ADN_sonore_2.wav",
-                  type: "ADN Sonore",
-                },
-                {
-                  title: "ADN Sonore 3",
-                  client: "Entreprise Tech",
-                  audioFile: "/audio/ADN_sonore_3.wav",
-                  type: "ADN Sonore",
-                },
-                {
-                  title: "ADN Sonore Electro",
-                  client: "Campagne Digitale",
-                  audioFile: "/audio/ADN_sonore_electro.wav",
-                  type: "ADN Sonore",
-                },
-                                {
-                  title: "ADN Sonore Funk",
-                  client: "Campagne Digitale",
-                  audioFile: "/audio/ADN_sonore_funk.wav",
-                  type: "ADN Sonore",
-                },
-                {
-                  title: "Jingle",
-                  client: "Service Client",
-                  audioFile: "/audio/jingle.wav",
-                  type: "Jingle",
-                },
-                {
-                  title: "Musique pour Défilé",
-                  client: "Startup Innovation",
-                  audioFile: "/audio/musique_pour_defile.wav",
-                  type: "musique événementielle",
-                },
-                {
-                  title: "Musique boucle Planant",
-                  client: "Startup Innovation",
-                  audioFile: "/audio/boucle_planant.wav",
-                  type: "musique événementielle",
-                },
-              ];
-
-              return sounds.map((sound, index) => {
-                // Charger la durée au montage du composant
-                if (!audioDurations[sound.audioFile]) {
-                  loadAudioDuration(sound.audioFile);
-                }
-
-                return (
-                  <div
-                    key={sound.title}
-                    className="group relative rounded-2xl p-8 border border-gray-200 hover:border-black transition-all duration-300 hover:shadow-2xl overflow-hidden"
-                  >
-                    <div
-                      className="absolute inset-0 bg-black transition-all duration-100"
-                      style={{
-                        clipPath:
-                          playingIndex === index
-                            ? `inset(0 ${100 - audioProgress}% 0 0)`
-                            : "inset(0 100% 0 0)",
-                      }}
-                    />
-
-                    <div className="relative z-10">
-                      <div className="flex items-center justify-between mb-4">
-                        <div
-                          className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            playingIndex === index ? "bg-white" : "bg-black"
-                          }`}
-                        >
-                          <Volume2
-                            className={`w-8 h-8 transition-colors duration-300 ${
-                              playingIndex === index
-                                ? "text-black"
-                                : "text-white"
-                            }`}
-                          />
-                        </div>
-                        <span
-                          className={`text-sm font-semibold px-3 py-1 rounded-full transition-colors duration-300 ${
-                            playingIndex === index
-                              ? "bg-white text-black"
-                              : "text-gray-500 bg-gray-100"
-                          }`}
-                        >
-                          {sound.type}
-                        </span>
-                      </div>
-
-                      <h3
-                        className={`text-xl font-bold mb-2 transition-colors duration-300 ${
-                          playingIndex === index
-                            ? "text-white"
-                            : "text-gray-900"
-                        }`}
-                      >
-                        {sound.title}
-                      </h3>
-                      <p
-                        className={`mb-3 transition-colors duration-300 ${
-                          playingIndex === index
-                            ? "text-gray-300"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        {sound.client}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span
-                          className={`text-sm transition-colors duration-300 ${
-                            playingIndex === index
-                              ? "text-gray-400"
-                              : "text-gray-500"
-                          }`}
-                        >
-                          {audioDurations[sound.audioFile] || "--:--"}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() =>
-                              handleRestart(index, sound.audioFile)
-                            }
-                            className="transition-all duration-300"
-                          >
-                            <RotateCcw className="w-6 h-6 mix-blend-difference" />
-                          </button>
-                          <button
-                            onClick={() =>
-                              handlePlayPause(index, sound.audioFile)
-                            }
-                            className="transition-all duration-300"
-                          >
-                            {playingIndex === index ? (
-                              <Pause className="w-8 h-8" />
-                            ) : (
-                              <Play className="w-8 h-8" />
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              });
-            })()}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:px-20 px-8">
+          {portfolioData.map((item) => (
+            <PortfolioCard key={item.id} item={item} onOpen={openModal} />
+          ))}
         </div>
       </section>
+      {/* MODALE */}
+      <SoundModal data={modalData} isOpen={isModalOpen} onClose={closeModal} />
 
       <section
         id="présentation"
@@ -618,15 +402,15 @@ function App() {
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>Paris, France</li>
-                <li>contact@lesartisanssonore.com</li>
-                <li>+33 1 23 45 67 89</li>
+                <li>lesartisanssonores@gmail.com</li>
+                <li>+33 6 31 51 65 17</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
             <p>
-              &copy; 2025 L.A.S. - Les Artisans Sonore. Tous droits réservés.
+              &copy; 2025 L.A.S. - Les Artisans Sonores. Tous droits réservés.
             </p>
           </div>
         </div>
