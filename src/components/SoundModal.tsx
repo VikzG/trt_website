@@ -20,26 +20,23 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
   const [volume, setVolume] = useState(1);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
-  // -----------------------------
-  // Sync audio + video playback
-  // -----------------------------
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  // Sync audio + video
   useEffect(() => {
     if (!isOpen || !videoRef.current || !audioRef.current) return;
 
     const video = videoRef.current;
     const audio = audioRef.current;
 
-    // Start both
     video.play();
     audio.play();
     setIsPlaying(true);
 
-    // Volume sync
     audio.volume = volume;
     video.volume = volume;
   }, [isOpen]);
 
-  // Volume change
   useEffect(() => {
     if (!audioRef.current || !videoRef.current) return;
     audioRef.current.volume = volume;
@@ -51,6 +48,8 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm animate-fade-in">
       <div className="relative w-full max-w-4xl mx-4 animate-scale-in">
+
+        {/* CLOSE BUTTON */}
         <button
           onClick={onClose}
           className="absolute -top-4 -right-4 z-50 p-3 bg-white text-black rounded-full shadow-lg hover:bg-neutral-200 transition"
@@ -59,12 +58,24 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
         </button>
 
         <div className="relative w-full h-full flex flex-col items-center">
-          {/* VIDEO */}
+
+          {/* ---------- SKELETON LOADER ---------- */}
+          {!isVideoLoaded && (
+            <div className="w-full h-[400px] rounded-lg bg-neutral-800 animate-pulse flex items-center justify-center relative">
+              <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            </div>
+          )}
+
+          {/* ---------- VIDEO ---------- */}
           <video
             ref={videoRef}
             autoPlay
             playsInline
-            className="w-full h-full object-cover rounded-lg"
+            className={`w-full h-full object-cover rounded-lg transition-opacity duration-500 ${
+              isVideoLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoadedData={() => setIsVideoLoaded(true)}
+            onCanPlay={() => setIsVideoLoaded(true)}
           >
             <source src={data.videoFile} type="video/mp4" />
           </video>
@@ -72,8 +83,9 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
           {/* AUDIO */}
           <audio ref={audioRef} src={data.soundFile} />
 
-          {/* CONTROLS */}
+          {/* ---------- CONTROLS ---------- */}
           <div className="flex items-center justify-center gap-6 mt-4">
+
             {/* Restart */}
             <button
               onClick={() => {
@@ -108,11 +120,7 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
               }}
               className="p-6 bg-white text-black rounded-full shadow-xl hover:bg-neutral-200 transition"
             >
-              {isPlaying ? (
-                <Pause className="w-10 h-10" />
-              ) : (
-                <Play className="w-10 h-10" />
-              )}
+              {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
             </button>
 
             {/* Volume */}
@@ -121,11 +129,7 @@ export function SoundModal({ data, isOpen, onClose }: SoundModalProps) {
                 onClick={() => setShowVolumeSlider(!showVolumeSlider)}
                 className="p-4 bg-white/20 hover:bg-white/30 transition rounded-full text-white"
               >
-                {volume === 0 ? (
-                  <VolumeX className="w-6 h-6" />
-                ) : (
-                  <Volume2 className="w-6 h-6" />
-                )}
+                {volume === 0 ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
               </button>
 
               {showVolumeSlider && (
