@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  Music,
-  Mic,
-  Radio,
-  Headphones,
-  Menu,
-  X,
-  Play,
-} from "lucide-react";
+import LightRays from "./components/LightRays";
+import { Music, Mic, Radio, Headphones, Menu, X, Play } from "lucide-react";
 import portfolioData from "./components/portfolioData";
 import { PortfolioCard } from "./components/PortfolioCard";
 import { SoundModal } from "./components/SoundModal";
@@ -120,7 +113,7 @@ function App() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-white tracking-tight hover:scale-110 transition-transform duration-300">
+            <div className="text-2xl font-bold font-Vogue text-white tracking-tight hover:scale-110 transition-transform duration-300">
               L.A.S.
             </div>
 
@@ -173,17 +166,29 @@ function App() {
       </nav>
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gray-500 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0" style={{ zIndex: 20 }}>
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#FFFFFF"
+              raysSpeed={1.5}
+              lightSpread={0.8}
+              rayLength={1.2}
+              followMouse={true}
+              mouseInfluence={0.1}
+              noiseAmount={0.1}
+              distortion={0.05}
+              className="custom-rays"
+            />
+          </div>
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <div>
-            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight animate-scale-in">
+            <h1 className="text-6xl md:text-8xl font-Vogue text-white mb-6 leading-tight animate-scale-in">
               L.A.S.
             </h1>
-            <p className="text-3xl md:text-4xl text-gray-300 mb-8 font-light animate-fade-in-up delay-200">
+            <p className="text-3xl md:text-4xl text-gray-300 mb-8 font-light font-Vogue animate-fade-in-up delay-200">
               Les Artisans Sonores
             </p>
             <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-400">
@@ -215,7 +220,7 @@ function App() {
       <section id="services" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-5xl font-Vogue text-gray-900 mb-4">
               Nos Services
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -248,7 +253,7 @@ function App() {
       <section id="portfolio" className="py-24 bg-gray-50">
         <div className="text-center mb-16">
           {" "}
-          <h2 className="text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-5xl text-gray-900 mb-4 font-Vogue">
             {" "}
             Nos Créations{" "}
           </h2>{" "}
@@ -277,7 +282,7 @@ function App() {
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-5xl font-bold mb-6">Présentation</h2>
+            <h2 className="text-5xl font-Vogue mb-6">Présentation</h2>
             <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
               Nous mettons à votre service nos années d'apprentissage au sein de
               conservatoires, ainsi que notre expérience dans l'industrie
@@ -329,7 +334,7 @@ function App() {
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <div>
-            <h2 className="text-5xl font-bold mb-6 animate-fade-in-up">
+            <h2 className="text-5xl font-Vogue mb-6 animate-fade-in-up">
               Prêt à démarrer votre projet ?
             </h2>
             <p className="text-xl mb-12 text-gray-700 animate-fade-in-up delay-200">
