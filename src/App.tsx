@@ -61,6 +61,14 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMenuOpen]);
+
   const services = [
     {
       icon: <Music className="w-12 h-12" />,
@@ -112,11 +120,15 @@ function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
+          {/* IMPORTANT : J'ai ajouté 'relative z-50' ici pour que le Logo et le Bouton Burger
+      restent visibles PAR-DESSUS le menu plein écran qui va s'ouvrir.
+    */}
+          <div className="relative z-50 flex justify-between items-center">
             <div className="text-2xl font-bold font-Vogue text-white tracking-tight hover:scale-110 transition-transform duration-300">
               L.A.S.
             </div>
 
+            {/* Menu Desktop (inchangé) */}
             <div className="hidden md:flex items-center space-x-8">
               {["Services", "Portfolio", "Présentation", "Contact"].map(
                 (item) => (
@@ -131,39 +143,41 @@ function App() {
               )}
             </div>
 
+            {/* Bouton Burger / Croix */}
             <button
-              className="md:hidden text-white"
+              className="md:hidden text-white transition-transform duration-300 hover:scale-110"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-8 h-8" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-8 h-8" />
               )}
             </button>
           </div>
-
-          <div
-            className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-              isMenuOpen ? "max-h-48 opacity-100 mt-4" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="pb-4 space-y-3">
-              {["Services", "Portfolio", "Présentation", "Contact"].map(
-                (item) => (
-                  <button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="block text-white/90 hover:text-white transition-colors duration-300 w-full text-left"
-                  >
-                    {item}
-                  </button>
-                )
-              )}
-            </div>
-          </div>
         </div>
       </nav>
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-90 z-40 flex flex-col justify-center items-center transition-transform duration-500 ease-in-out md:hidden ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col space-y-8 text-center">
+          {["Services", "Portfolio", "Présentation", "Contact"].map((item) => (
+            <button
+              key={item}
+              onClick={() => {
+                scrollToSection(item.toLowerCase());
+                setIsMenuOpen(false); // Ferme le menu au clic
+              }}
+              className="text-3xl font-Vogue text-white/90 hover:text-white hover:scale-110 transition-all duration-300"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
         <div className="absolute inset-0 pointer-events-none">
@@ -172,8 +186,8 @@ function App() {
               raysOrigin="top-center"
               raysColor="#FFFFFF"
               raysSpeed={1.5}
-              lightSpread={0.8}
-              rayLength={1.2}
+              lightSpread={1.8}
+              rayLength={1.8}
               followMouse={true}
               mouseInfluence={0.1}
               noiseAmount={0.1}
@@ -262,12 +276,17 @@ function App() {
             Découvrez quelques exemples de nos compositions sonores{" "}
           </p>{" "}
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:px-20 px-8">
           {portfolioData.map((item) => (
             <PortfolioCard key={item.id} item={item} onOpen={openModal} />
           ))}
         </div>
+        <p className="text-l text-gray-600 max-w-2xl px-8 mx-auto mt-10">
+          {" "}
+          Les vidéos présentées sur cette page sont utilisées uniquement à des
+          fins de démonstration. Tous les droits reviennent à leurs auteurs
+          respectifs.*{" "}
+        </p>{" "}
       </section>
       {/* MODALE */}
       <SoundModal data={modalData} isOpen={isModalOpen} onClose={closeModal} />
@@ -341,9 +360,11 @@ function App() {
               Contactez-nous pour discuter de vos besoins et obtenir un devis
               personnalisé
             </p>
-            <button className="px-12 py-5 bg-black text-white rounded-full font-bold text-lg hover:bg-gray-900 transition-all duration-300 transform hover:scale-105 animate-scale-in delay-400 hover:shadow-2xl">
-              Nous contacter
-            </button>
+            <a href="mailto:lesartisanssonores@gmail.com">
+              <button className="px-12 py-5 bg-black text-white rounded-full font-bold text-lg hover:bg-gray-900 transition-all duration-300 transform hover:scale-105 animate-scale-in delay-400 hover:shadow-2xl">
+                Nous contacter
+              </button>
+            </a>
           </div>
         </div>
       </section>
