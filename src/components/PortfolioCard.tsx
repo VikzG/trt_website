@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { Play } from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
 
 interface PortfolioItem {
-  coverImage: string;
+  id: number;
   title: string;
-  type: string;
-  client: string;
+  category: string;
+  coverImage: string;
+  client?: string;
+  type?: string;
 }
 
 interface PortfolioCardProps {
@@ -13,40 +15,67 @@ interface PortfolioCardProps {
   onOpen: (item: PortfolioItem) => void;
 }
 
-export function PortfolioCard({ item, onOpen }: PortfolioCardProps) {
-  const [loaded, setLoaded] = useState(false);
-
+export const PortfolioCard: React.FC<PortfolioCardProps> = ({
+  item,
+  onOpen,
+}) => {
   return (
-    <div
-      className="relative rounded-2xl overflow-hidden group cursor-pointer"
-      onClick={() => onOpen(item)}
-    >
-      {/* Skeleton de chargement */}
-      {!loaded && (
-        <div className="w-full h-64 rounded-2xl bg-neutral-800 animate-pulse" />
-      )}
+    <div className="group cursor-none w-full" onClick={() => onOpen(item)}>
+      {/* Conteneur de l'image / Thumbnail */}
+      <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100 mb-6">
+        {/* L'image avec effet de zoom lent au hover */}
+        <motion.img
+          src={item.coverImage}
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110"
+        />
 
-      {/* Image réelle */}
-      <img
-        src={item.coverImage}
-        alt={item.title}
-        className={`w-full h-64 object-cover rounded-2xl transition-opacity duration-500 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-        onLoad={() => setLoaded(true)}
-      />
+        {/* Overlay au survol */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px] flex items-center justify-center">
+          {/* Bouton Play Minimaliste */}
+          <div className="relative">
+            <motion.div
+              initial={{ scale: 0.8 }}
+              whileHover={{ scale: 1.1 }}
+              className="w-20 h-20 border border-white/50 rounded-full flex items-center justify-center text-white"
+            >
+              <span className="text-[10px] uppercase tracking-[0.3em] font-bold italic pl-1">
+                Play
+              </span>
+            </motion.div>
+          </div>
+        </div>
 
-      {/* Overlay Play */}
-      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
-        <Play className="w-10 h-10 text-white opacity-90" />
+        {/* Badge de catégorie discret en haut à gauche */}
+        <div className="absolute top-6 left-6 overflow-hidden">
+          <span className="inline-block text-[10px] uppercase tracking-[0.4em] text-white opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+            {item.type || "Studio Project"}
+          </span>
+        </div>
       </div>
 
-      {/* Infos en bas */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white">
-        <p className="text-sm opacity-80">{item.type}</p>
-        <h3 className="text-lg font-semibold">{item.title}</h3>
-        <p className="text-xs opacity-70">{item.client}</p>
+      {/* Informations sous l'image */}
+      <div className="flex justify-between items-start border-b border-zinc-100 pb-4">
+        <div className="flex-1">
+          <h3 className="text-xl md:text-2xl font-bold text-zinc-900 tracking-tight transition-colors duration-300 group-hover:text-zinc-500 uppercase">
+            {item.title}
+          </h3>
+          <div className="flex items-center mt-2 space-x-4">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400">
+              {item.category}
+            </p>
+            <span className="w-1 h-1 bg-zinc-200 rounded-full" />
+            <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400">
+              {item.client || "L.A.S."}
+            </p>
+          </div>
+        </div>
+
+        {/* Numérotation stylisée (utilise l'ID ou l'index) */}
+        <div className="text-xs font-Vogue text-zinc-300 group-hover:text-black transition-colors duration-500 pt-1">
+          / 0{item.id}
+        </div>
       </div>
     </div>
   );
-}
+};
