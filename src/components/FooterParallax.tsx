@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const FooterParallax = () => {
@@ -15,11 +15,11 @@ const FooterParallax = () => {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const contentY = useTransform(scrollYProgress, [0, 1], [80, 0]);
 
-  // Tes anciens Variants pour les éléments internes
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
-  };
+  // Anciens Variants pour les éléments internes
+//  const itemVariants: Variants = {
+//    hidden: { opacity: 0, y: 10 },
+//    visible: { opacity: 1, y: 0 },
+//  };
 
   return (
     <footer
@@ -36,12 +36,12 @@ const FooterParallax = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </motion.div>
 
-      {/* CONTENU : Ta structure de liens fusionnée */}
+      {/* CONTENU : structure de liens fusionnée */}
       <motion.div
         style={{ opacity, y: contentY }}
         className="relative z-10 w-[95%] mx-auto px-6 pb-12"
       >
-        {/* Grille de liens - Intégralité de ton ancien contenu */}
+        {/* Grille de liens - Intégralité ancien contenu */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-24 md:mb-32">
           {/* Colonne 1 : Identité */}
           <div className="flex flex-col">

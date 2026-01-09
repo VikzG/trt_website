@@ -6,7 +6,6 @@ interface PortfolioItem {
   title: string;
   category: string;
   coverImage: string;
-  client?: string;
   type?: string;
 }
 
@@ -27,7 +26,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
         <motion.img
           src={item.coverImage}
           alt={item.title}
-          className="w-full h-full object-cover transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110"
+          className="w-full h-full object-cover filter grayscale transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110"
         />
 
         {/* Overlay au survol */}
@@ -65,9 +64,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               {item.category}
             </p>
             <span className="w-1 h-1 bg-zinc-200 rounded-full" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400">
-              {item.client || "L.A.S."}
-            </p>
           </div>
         </div>
 
