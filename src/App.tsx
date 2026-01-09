@@ -8,6 +8,7 @@ import Hero from "./components/Hero";
 import Services from "./components/Services";
 import PortfolioSection from "./components/PortfolioSection";
 import Footer from "./components/Footer";
+import FooterParallax from "./components/FooterParallax";
 import Contact from "./components/Contact";
 import CustomCursor from "./components/CustomCursor";
 import Loader from "./components/Loader";
@@ -51,35 +52,40 @@ function App() {
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {isLoading ? (
-        <Loader key="loader" finishLoading={() => setIsLoading(false)} />
-      ) : (
-        <motion.div
-          key="content"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="min-h-screen bg-white lg:cursor-none"
-        >
-          <CustomCursor />
-          <Navbar scrollToSection={scrollToSection} />
-          <Hero />
-          <Presentation />
-          <Services />
-          <PortfolioSection
-            portfolioData={portfolioData}
-            openModal={openModal}
-          />
-          <SoundModal
-            data={modalData}
-            isOpen={isModalOpen}
-            onClose={closeModal}
-          />
-          <Contact />
-          <Footer />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className="relative min-h-screen bg-black lg:cursor-none">
+      <AnimatePresence>
+        {isLoading && (
+          <Loader key="loader" finishLoading={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 2 }}
+      >
+        <CustomCursor />
+        <Navbar scrollToSection={scrollToSection} />
+        <main className="relative z-20 shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
+        <Hero />
+        <Presentation />
+        <Services />
+        <PortfolioSection portfolioData={portfolioData} openModal={openModal} />
+        <Contact />
+        </main>
+        {/* Le wrapper pour l'effet final */}
+        <div className="relative">
+
+          <FooterParallax />
+
+        </div>
+        <SoundModal
+          data={modalData}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      </motion.div>
+    </div>
   );
 }
 

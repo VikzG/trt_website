@@ -21,17 +21,17 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
   }, [isMenuOpen]);
 
-  const menuVariants: Variants = {
+const menuVariants: Variants = {
     closed: {
-      x: "-100%",
+      opacity: 0,
       transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1], // TypeScript l'accepte maintenant grâce au type Variants
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
         when: "afterChildren",
       },
     },
     opened: {
-      x: 0,
+      opacity: 1,
       transition: {
         duration: 0.6,
         ease: [0.22, 1, 0.36, 1],
@@ -41,13 +41,13 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
   };
 
   const linkVariants: Variants = {
-    closed: { opacity: 0, y: 30, filter: "blur(5px)" },
+    closed: { opacity: 0, y: 20, filter: "blur(10px)" }, // Légère remontée et flou
     opened: (i: number) => ({
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       transition: {
-        delay: 0.2 + i * 0.1,
+        delay: 0.1 + i * 0.1,
         duration: 0.5,
         ease: "easeOut",
       },
@@ -56,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
 
   const menuItems = ["Services", "Portfolio", "Présentation", "Contact"];
 
-  return (
+return (
     <>
       <nav
         className={`fixed top-0 w-full z-[60] transition-all duration-500 ${
@@ -74,30 +74,22 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
             }}
             className="text-2xl font-bold font-Vogue text-white tracking-[0.2em] cursor-pointer hover:opacity-70 transition-opacity"
           >
-            L.A.S.
+            L.A.S
           </div>
 
-          {/* Bouton Burger Custom */}
+          {/* Bouton Burger */}
           <button
             className="relative z-[70] w-10 h-10 text-white flex flex-col items-end justify-center group"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="flex flex-col items-end space-y-2">
               <motion.span
-                animate={
-                  isMenuOpen
-                    ? { rotate: 45, y: 5, width: "32px" }
-                    : { rotate: 0, y: 0, width: "32px" }
-                }
-                className="h-px bg-white block transition-all duration-300"
+                animate={isMenuOpen ? { rotate: 45, y: 5, width: "32px" } : { rotate: 0, y: 0, width: "32px" }}
+                className="h-px bg-white block"
               />
               <motion.span
-                animate={
-                  isMenuOpen
-                    ? { rotate: -45, y: -5, width: "32px" }
-                    : { rotate: 0, y: 0, width: "20px" }
-                }
-                className="h-px bg-white block transition-all duration-300"
+                animate={isMenuOpen ? { rotate: -45, y: -5, width: "32px" } : { rotate: 0, y: 0, width: "20px" }}
+                className="h-px bg-white block"
               />
             </div>
           </button>
@@ -114,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
             variants={menuVariants}
             className="fixed inset-0 bg-black z-[50] flex flex-col justify-center items-center"
           >
-            {/* Décoration d'arrière-plan */}
+            {/* Décoration d'arrière-plan (Effet Spectacle que nous avons fait avant) */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px]" />
             </div>
@@ -143,7 +135,8 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.4 }}
-              transition={{ delay: 0.8 }}
+              exit={{ opacity: 0 }} // Ajout d'un exit propre
+              transition={{ delay: 0.1 }}
               className="absolute bottom-12 text-white font-Vogue tracking-[0.6em] text-[10px] md:text-xs"
             >
               LES ARTISANS SONORES

@@ -34,7 +34,7 @@ const Footer = () => {
           {/* Colonne 1 : Identité */}
           <motion.div variants={itemVariants} className="flex flex-col">
             <h2 className="text-5xl font-Vogue leading-none tracking-tighter mb-4">
-              L.A.S.
+              L.A.S
             </h2>
             <p className="text-[10px] uppercase tracking-[0.5em] text-gray-500 font-light">
               Les Artisans <br /> Sonores
@@ -89,7 +89,7 @@ const Footer = () => {
           variants={itemVariants}
           className="flex flex-col md:flex-row justify-between items-center border-t border-white/5 pt-12 text-[10px] tracking-[0.3em] text-gray-600 uppercase"
         >
-          <p>&copy; 2026 L.A.S. — Les Artisans Sonores</p>
+          <p>&copy; 2026 L.A.S — Les Artisans Sonores</p>
           <div className="flex space-x-8 mt-4 md:mt-0">
             <a href="#" className="hover:text-white transition-colors underline-offset-4 hover:underline">Mentions Légales</a>
             <a href="#" className="hover:text-white transition-colors underline-offset-4 hover:underline">Confidentialité</a>

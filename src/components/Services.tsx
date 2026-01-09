@@ -1,5 +1,11 @@
 import { motion, Variants, AnimatePresence } from "framer-motion";
-import { Music, Mic, Radio, Headphones, Play } from "lucide-react";
+import { 
+  Sparkles, 
+  Fingerprint, 
+  Speaker, 
+  Clapperboard, 
+  Infinity 
+} from "lucide-react";
 import { useState } from "react";
 
 const Services = () => {
@@ -22,13 +28,33 @@ const Services = () => {
     }
   };
 
-  const services = [
-    { icon: <Music className="w-12 h-12" />, title: "Jingle", description: "Court motif sonore entre 5 et 10 secondes qui rend votre marque immédiatement identifiable grâce à une mélodie reconnaissable." },
-    { icon: <Headphones className="w-12 h-12" />, title: "ADN Sonore", description: "Morceaux de musique entièrement personnalisés de 2 à 5 minutes, hymne officiel de votre marque adaptable à tous vos contenus et événements." },
-    { icon: <Radio className="w-12 h-12" />, title: "Musique Événementielle", description: "Composition et arrangement spécialement créés pour vos événements : meetings, spectacles, campagnes, soirées, remises de diplôme." },
-    { icon: <Play className="w-12 h-12" />, title: "Habillage Vidéo Personnalisé", description: "Composition sur mesure pour vidéos promotionnelles, réseaux sociaux, brand content, reportages, interviews et formations internes." },
-    { icon: <Mic className="w-12 h-12" />, title: "Musique d'Attente Personnalisée", description: "Boucle musicale d'environ 30 secondes pour faire patienter vos clients lors d'appels téléphoniques, lives ou meetings." },
-  ];
+const services = [
+  { 
+    icon: <Sparkles strokeWidth={1.25} className="w-12 h-12" />, 
+    title: "Jingle", 
+    description: "Court motif sonore entre 5 et 10 secondes qui rend votre marque immédiatement identifiable grâce à une mélodie reconnaissable." 
+  },
+  { 
+    icon: <Fingerprint strokeWidth={1.25} className="w-12 h-12" />, 
+    title: "ADN Sonore", 
+    description: "Morceaux de musique entièrement personnalisés de 2 à 5 minutes, hymne officiel de votre marque adaptable à tous vos contenus et événements." 
+  },
+  { 
+    icon: <Speaker strokeWidth={1.25} className="w-12 h-12" />, 
+    title: "Musique Événementielle", 
+    description: "Composition et arrangement spécialement créés pour vos événements : meetings, spectacles, campagnes, soirées, remises de diplôme." 
+  },
+  { 
+    icon: <Clapperboard strokeWidth={1.25} className="w-12 h-12" />, 
+    title: "Habillage Vidéo", // Simplifié pour le design
+    description: "Composition sur mesure pour vidéos promotionnelles, réseaux sociaux, brand content, reportages, interviews et formations internes." 
+  },
+  { 
+    icon: <Infinity strokeWidth={1.25} className="w-12 h-12" />, 
+    title: "Musique d'Attente", 
+    description: "Boucle musicale d'environ 30 secondes pour faire patienter vos clients lors d'appels téléphoniques, lives ou meetings." 
+  },
+];
 
   return (
     <section id="services" className="py-32 bg-[#fafafa] overflow-hidden">

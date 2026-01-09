@@ -44,12 +44,12 @@ const Contact = () => {
           className="text-5xl md:text-8xl font-Vogue mb-10 leading-[1.1] tracking-tighter"
         >
           L'excellence a <br />
-          <span className="italic">un nouveau son</span>.
+          <span>un nouveau son</span>.
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
-          className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-16"
+          className="text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-16"
         >
           Prêt à définir votre signature acoustique ? <br />
           Échangeons sur vos ambitions et créons l'inoubliable.
@@ -61,7 +61,7 @@ const Contact = () => {
         >
           <a href="mailto:lesartisanssonores@gmail.com">
             {/* Bouton Cinématique : Blanc qui devient Noir au hover */}
-            <button className="relative px-20 py-6 border border-white/30 overflow-hidden transition-colors duration-500 group-hover:text-black group-hover:border-white uppercase tracking-[0.3em] text-xs font-bold">
+            <button className="relative px-16 py-6 border border-white/30 overflow-hidden transition-colors duration-500 group-hover:text-black group-hover:border-white uppercase tracking-[0.3em] text-xs font-bold md:px-20">
               <span className="relative z-10">Démarrer un projet</span>
 
               {/* Le volet de remplissage Blanc */}

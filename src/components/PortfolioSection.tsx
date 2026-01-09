@@ -95,7 +95,7 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
             auteurs respectifs.
           </p>
           <span className="text-[10px] uppercase tracking-[0.4em] text-gray-300 whitespace-nowrap">
-            © 2026 Showreel
+            © 2026
           </span>
         </motion.div>
       </div>
