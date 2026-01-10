@@ -21,12 +21,12 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   return (
     <div className="group cursor-none w-full" onClick={() => onOpen(item)}>
       {/* Conteneur de l'image / Thumbnail */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-zinc-100 mb-6">
+      <div className="group relative aspect-[16/10] overflow-hidden bg-zinc-100 mb-6">
         {/* L'image avec effet de zoom lent au hover */}
         <motion.img
           src={item.coverImage}
           alt={item.title}
-          className="w-full h-full object-cover filter grayscale transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110"
+          className="w-full h-full object-cover filter grayscale transition-transform duration-[1.5s] ease-[0.22,1,0.36,1] group-hover:scale-110 group-hover:grayscale-0"
         />
 
         {/* Overlay au survol */}

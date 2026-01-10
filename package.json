@@ -11,9 +11,11 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@studio-freight/lenis": "^1.0.42",
     "@supabase/supabase-js": "^2.57.4",
     "cloudinary-react": "^1.8.1",
     "framer-motion": "^12.24.0",
+    "lenis": "^1.3.17",
     "lucide-react": "^0.344.0",
     "ogl": "^1.0.11",
     "react": "^18.3.1",

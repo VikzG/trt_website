@@ -7,11 +7,11 @@ import Presentation from "./components/Presentation";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import PortfolioSection from "./components/PortfolioSection";
-import Footer from "./components/Footer";
 import FooterParallax from "./components/FooterParallax";
 import Contact from "./components/Contact";
 import CustomCursor from "./components/CustomCursor";
 import Loader from "./components/Loader";
+import SmoothScroll from "./components/SmoothScroll";
 
 interface ModalData {
   videoFile: string;
@@ -52,6 +52,7 @@ function App() {
   };
 
   return (
+    <SmoothScroll>
     <div className="relative min-h-screen bg-black lg:cursor-none">
       <AnimatePresence>
         {isLoading && (
@@ -67,17 +68,18 @@ function App() {
         <CustomCursor />
         <Navbar scrollToSection={scrollToSection} />
         <main className="relative z-20 shadow-[0_50px_100px_rgba(0,0,0,0.9)]">
-        <Hero />
-        <Presentation />
-        <Services />
-        <PortfolioSection portfolioData={portfolioData} openModal={openModal} />
-        <Contact />
+          <Hero />
+          <Presentation />
+          <Services />
+          <PortfolioSection
+            portfolioData={portfolioData}
+            openModal={openModal}
+          />
+          <Contact />
         </main>
-        {/* Le wrapper pour l'effet final */}
-        <div className="relative">
-
-          <FooterParallax />
-
+        {/* Parallax Footer */}
+        <div className="relative z-10">
+          <FooterParallax scrollToSection={scrollToSection} />
         </div>
         <SoundModal
           data={modalData}
@@ -86,6 +88,7 @@ function App() {
         />
       </motion.div>
     </div>
+    </SmoothScroll>
   );
 }
 

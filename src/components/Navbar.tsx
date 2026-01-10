@@ -54,7 +54,7 @@ const menuVariants: Variants = {
     }),
   };
 
-  const menuItems = ["Services", "Portfolio", "Présentation", "Contact"];
+  const menuItems = ["Présentation","Services", "Créations", "Contact"];
 
 return (
     <>

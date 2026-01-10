@@ -29,7 +29,7 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
   };
 
   return (
-    <section id="portfolio" className="py-24 md:py-32 bg-[#fafafa]">
+    <section id="créations" className="py-24 md:py-32 bg-[#fafafa]">
       <div className="max-w-[95%] mx-auto px-6">
         
         {/* --- Header Corrigé --- */}
