@@ -22,37 +22,41 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
   }, [isMenuOpen]);
 
 const menuVariants: Variants = {
-    closed: {
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
-        when: "afterChildren",
-      },
+  closed: {
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+      ease: "easeInOut",
+      when: "afterChildren",
     },
-    opened: {
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-        when: "beforeChildren",
-      },
+  },
+  opened: {
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+      when: "beforeChildren",
     },
-  };
+  },
+};
 
-  const linkVariants: Variants = {
-    closed: { opacity: 0, y: 20, filter: "blur(10px)" }, // Légère remontée et flou
-    opened: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        delay: 0.1 + i * 0.1,
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    }),
-  };
+const linkVariants: Variants = {
+  closed: { 
+    opacity: 0, 
+    y: 15, 
+    filter: "blur(4px)"
+  }, 
+  opened: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      delay: i * 0.05, 
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
 
   const menuItems = ["Présentation","Services", "Créations", "Contact"];
 

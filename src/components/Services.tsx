@@ -1,10 +1,10 @@
 import { motion, Variants, AnimatePresence } from "framer-motion";
-import { 
-  Sparkles, 
-  Fingerprint, 
-  Speaker, 
-  Clapperboard, 
-  Infinity 
+import {
+  Sparkles,
+  Fingerprint,
+  Speaker,
+  Clapperboard,
+  Infinity,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -15,54 +15,58 @@ const Services = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-    }
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    },
   };
 
-const services = [
-  { 
-    icon: <Sparkles strokeWidth={1.25} className="w-12 h-12" />, 
-    title: "Jingle", 
-    description: "Court motif sonore entre 5 et 10 secondes qui rend votre marque immédiatement identifiable grâce à une mélodie reconnaissable." 
-  },
-  { 
-    icon: <Fingerprint strokeWidth={1.25} className="w-12 h-12" />, 
-    title: "ADN Sonore", 
-    description: "Morceaux de musique entièrement personnalisés de 2 à 5 minutes, hymne officiel de votre marque adaptable à tous vos contenus et événements." 
-  },
-  { 
-    icon: <Speaker strokeWidth={1.25} className="w-12 h-12" />, 
-    title: "Musique Événementielle", 
-    description: "Composition et arrangement spécialement créés pour vos événements : meetings, spectacles, campagnes, soirées, remises de diplôme." 
-  },
-  { 
-    icon: <Clapperboard strokeWidth={1.25} className="w-12 h-12" />, 
-    title: "Habillage Vidéo", // Simplifié pour le design
-    description: "Composition sur mesure pour vidéos promotionnelles, réseaux sociaux, brand content, reportages, interviews et formations internes." 
-  },
-  { 
-    icon: <Infinity strokeWidth={1.25} className="w-12 h-12" />, 
-    title: "Musique d'Attente", 
-    description: "Boucle musicale d'environ 30 secondes pour faire patienter vos clients lors d'appels téléphoniques, lives ou meetings." 
-  },
-];
+  const services = [
+    {
+      icon: <Sparkles strokeWidth={1.25} className="w-12 h-12" />,
+      title: "Jingle",
+      description:
+        "Court motif sonore entre 5 et 10 secondes qui rend votre marque immédiatement identifiable grâce à une mélodie reconnaissable.",
+    },
+    {
+      icon: <Fingerprint strokeWidth={1.25} className="w-12 h-12" />,
+      title: "ADN Sonore",
+      description:
+        "Morceaux de musique entièrement personnalisés de 2 à 5 minutes, hymne officiel de votre marque adaptable à tous vos contenus et événements.",
+    },
+    {
+      icon: <Speaker strokeWidth={1.25} className="w-12 h-12" />,
+      title: "Musique Événementielle",
+      description:
+        "Composition et arrangement spécialement créés pour vos événements : meetings, spectacles, campagnes, soirées, remises de diplôme.",
+    },
+    {
+      icon: <Clapperboard strokeWidth={1.25} className="w-12 h-12" />,
+      title: "Habillage Vidéo", // Simplifié pour le design
+      description:
+        "Composition sur mesure pour vidéos promotionnelles, réseaux sociaux, brand content, reportages, interviews et formations internes.",
+    },
+    {
+      icon: <Infinity strokeWidth={1.25} className="w-12 h-12" />,
+      title: "Musique d'Attente",
+      description:
+        "Boucle musicale d'environ 30 secondes pour faire patienter vos clients lors d'appels téléphoniques, lives ou meetings.",
+    },
+  ];
 
   return (
     <section id="services" className="py-32 bg-[#fafafa] overflow-hidden">
       <div className="max-w-[90%] mx-auto px-6">
-        
         {/* --- Header Asymétrique Justifié à Droite --- */}
         <div className="flex flex-col md:flex-row-reverse justify-between items-start md:items-end mb-24 gap-12">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -76,7 +80,7 @@ const services = [
               Nos <br /> Services
             </h2>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,30 +89,34 @@ const services = [
             className="max-w-sm"
           >
             <p className="text-xl text-gray-500 font-light leading-relaxed mb-6">
-              Des solutions acoustiques sur mesure, façonnées pour l'excellence et l'émotion.
+              Des solutions acoustiques sur mesure, façonnées pour l'excellence
+              et l'émotion.
             </p>
             <div className="h-px w-24 bg-black" />
           </motion.div>
         </div>
 
         {/* --- Grille de Services --- */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="flex flex-wrap justify-center gap-10"
+          // AJOUT DE "items-start" ICI
+          className="flex flex-wrap justify-center gap-10 items-start"
         >
           {services.map((service, index) => (
             <motion.div
               key={service.title}
+              layout // Optionnel : ajoute "layout" pour une transition ultra fluide de la grille
               variants={cardVariants}
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="group relative p-10 bg-white rounded-sm border border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] cursor-none overflow-hidden w-full md:w-[calc(50%-2.5rem)] lg:w-[calc(33.333%-2.5rem)]"
+              // Changement du w-full md:w pour plus de précision
+              className="group relative p-10 bg-white rounded-sm border border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] cursor-none overflow-hidden w-full md:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-2.5rem)] h-auto"
             >
               {/* Effet de remplissage au survol */}
               <div className="absolute inset-0 bg-black translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500 ease-[0.22,1,0.36,1] z-0" />
-              
+
               <div className="relative z-10 mix-blend-difference text-white">
                 <div className="mb-8 transform transition-transform duration-500 group-hover:scale-110 origin-left">
                   <div className="w-12 h-12 flex items-center justify-center">
@@ -119,8 +127,8 @@ const services = [
                 <h3 className="text-2xl font-bold mb-4 tracking-tight uppercase">
                   {service.title}
                 </h3>
-                
-                <AnimatePresence>
+
+                <AnimatePresence mode="wait">
                   {openIndex === index && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
@@ -138,7 +146,13 @@ const services = [
 
                 <div className="mt-8 flex items-center text-[10px] uppercase tracking-[0.4em] opacity-70 group-hover:opacity-100">
                   <span>{openIndex === index ? "Fermer" : "Détails"}</span>
-                  <span className={`ml-4 transform transition-transform duration-300 ${openIndex === index ? 'rotate-90' : ''}`}>→</span>
+                  <span
+                    className={`ml-4 transform transition-transform duration-300 ${
+                      openIndex === index ? "rotate-90" : ""
+                    }`}
+                  >
+                    →
+                  </span>
                 </div>
               </div>
             </motion.div>
