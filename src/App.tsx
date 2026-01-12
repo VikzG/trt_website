@@ -26,7 +26,6 @@ function App() {
   const [modalData, setModalData] = useState<ModalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Gestion de la modale
   const openModal = (item: any) => {
     const data: ModalData = {
       videoFile: item.videoFile ?? item.video ?? "",
