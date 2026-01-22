@@ -31,7 +31,6 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
   return (
     <section id="créations" className="py-24 md:py-32 bg-[#fafafa]">
       <div className="max-w-[95%] mx-auto px-6">
-        
         {/* --- Header Corrigé --- */}
         {/* On utilise items-start par défaut (mobile) et items-end sur desktop */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-8">
@@ -58,8 +57,7 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
             transition={{ duration: 1, delay: 0.2 }}
             className="text-lg md:text-xl text-gray-500 font-light max-w-sm text-left md:text-right leading-relaxed"
           >
-            Une immersion dans nos dernières signatures acoustiques et
-            compositions sur mesure.
+            Une immersion dans nos dernières créations.
           </motion.p>
         </div>
 

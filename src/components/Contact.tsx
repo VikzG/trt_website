@@ -43,16 +43,16 @@ const Contact = () => {
           variants={itemVariants}
           className="text-5xl md:text-8xl font-Vogue mb-10 leading-[1.1] tracking-tighter"
         >
-          L'excellence a <br />
-          <span>un nouveau son</span>.
+          Prêt à définir <br />
+          <span>votre signature sonore ?</span>
         </motion.h2>
 
         <motion.p
           variants={itemVariants}
           className="text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-16"
         >
-          Prêt à définir votre signature acoustique ? <br />
-          Échangeons sur vos ambitions et créons l'inoubliable.
+          Discutons ensemble de votre projet afin de définir vos besoins, et
+          nous vous proposerons des solutions adaptées.
         </motion.p>
 
         <motion.div

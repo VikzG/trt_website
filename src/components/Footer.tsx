@@ -72,7 +72,7 @@ const Footer = () => {
           {/* Colonne 4 : Contact */}
           <motion.div variants={itemVariants}>
             <h4 className="text-[10px] uppercase tracking-[0.4em] text-gray-600 mb-8">Contact</h4>
-            <ul className="space-y-4 text-sm text-gray-400 font-light uppercase tracking-wider">
+            <ul className="space-y-4 text-sm text-gray-400 font-light tracking-wider">
               <li className="hover:text-white transition-colors cursor-default">Paris, France</li>
               <li>
                 <a href="mailto:lesartisanssonores@gmail.com" className="hover:text-white transition-colors">

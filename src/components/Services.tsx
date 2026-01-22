@@ -89,8 +89,7 @@ const Services = () => {
             className="max-w-sm"
           >
             <p className="text-xl text-gray-500 font-light leading-relaxed mb-6">
-              Des solutions acoustiques sur mesure, façonnées pour l'excellence
-              et l'émotion.
+              Des solutions sur mesure, à votre image.
             </p>
             <div className="h-px w-24 bg-black" />
           </motion.div>
