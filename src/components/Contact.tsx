@@ -50,8 +50,7 @@ const Contact = () => {
           variants={itemVariants}
           className="text-lg md:text-2xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed mb-16"
         >
-          Discutons ensemble de votre projet afin de définir vos besoins, et
-          nous vous proposerons des solutions adaptées.
+          Discutons ensemble de votre projet.
         </motion.p>
 
         <motion.div
