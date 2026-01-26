@@ -36,7 +36,6 @@ const Contact = () => {
           variants={itemVariants}
           className="flex flex-col items-center mb-12"
         >
-          <div className="h-12 w-px bg-gradient-to-b from-gray-800 to-transparent" />
         </motion.div>
 
         <motion.h2

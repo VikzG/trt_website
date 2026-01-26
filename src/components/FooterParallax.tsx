@@ -31,7 +31,7 @@ const FooterParallax = ({ scrollToSection }: FooterParallaxProps) => {
       {/* BACKGROUND */}
       <motion.div style={{ scale, opacity }} className="absolute inset-0">
         <img
-          src="/cover/poster_hero.PNG"
+          src="/cover/poster_hero.png"
           alt="Studio L.A.S."
           className="w-full h-full object-cover"
         />
