@@ -52,9 +52,10 @@ const Hero = () => {
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
     >
-      {/* Background Vidéo */}
+{/* Background Vidéo */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <video
+          key="hero-video" // Aide React à bien gérer l'élément
           autoPlay
           muted
           loop
@@ -62,9 +63,17 @@ const Hero = () => {
           className="absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 scale-[1.05]"
           poster="/cover/poster_hero.PNG"
         >
+          {/* Vidéo pour DESKTOP (Ecrans de plus de 768px) */}
           <source
-            src="https://res.cloudinary.com/dynpasxkm/video/upload/v1767965303/video_hero_jqm9fn.mp4"
+            src="https://res.cloudinary.com/dynpasxkm/video/upload/v1767965303/video_hero_jqm9fn.mp4" 
             type="video/mp4"
+            media="(min-width: 768px)"
+          />
+          {/* Vidéo pour MOBILE (Ecrans de moins de 767px) */}
+          <source
+            src="https://res.cloudinary.com/dynpasxkm/video/upload/v1769512621/mobile_hero_y6cudc.mp4"
+            type="video/mp4"
+            media="(max-width: 767px)"
           />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/80 backdrop-blur-[1px]"></div>

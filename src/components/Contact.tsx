@@ -31,13 +31,6 @@ const Contact = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        {/* Label de section avec trait vertical */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col items-center mb-12"
-        >
-        </motion.div>
-
         <motion.h2
           variants={itemVariants}
           className="text-5xl md:text-8xl font-Vogue mb-10 leading-[1.1] tracking-tighter"

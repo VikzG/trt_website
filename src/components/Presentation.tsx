@@ -47,7 +47,7 @@ const Presentation = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-10%" }}
+          viewport={{ once: true, margin: "-30%" }}
         >
 
 
@@ -62,11 +62,11 @@ const Presentation = () => {
 
             <motion.div variants={textVariants} className="md:col-span-8">
               <p className="text-2xl md:text-5xl font-light leading-snug text-gray-200">
-                Nous sommes <em className="font-normal">Les Artisans Sonores</em>, un <em className="font-normal">studio de création musicale </em>
-                dédié à donner une <em className="font-normal">voix unique</em> à votre <em className="font-normal">marque</em>.<br/>Nous mettons
-                notre <em className="font-normal">passion</em> et notre <em className="font-normal">savoir-faire</em> au service de <em className="font-normal">créations
-                sonores sur mesure</em>, conçues pour <em className="font-normal">renforcer votre image de marque </em>
-                et <em className="font-normal">sublimer les moments clés</em> de <em className="font-normal">votre histoire</em>.
+                Nous sommes <em className="font-medium">Les Artisans Sonores</em>, un <em className="font-medium">studio de création musicale </em>
+                dédié à donner une <em className="font-medium">voix unique</em> à votre <em className="font-medium">marque</em>.<br/>Nous mettons
+                notre <em className="font-medium">passion</em> et notre <em className="font-medium">savoir-faire</em> au service de <em className="font-medium">créations
+                sonores sur mesure</em>, conçues pour <em className="font-medium">renforcer votre image de marque </em>
+                et <em className="font-medium">sublimer les moments clés</em> de <em className="font-medium">votre histoire</em>.
               </p>
             </motion.div>
           </div>

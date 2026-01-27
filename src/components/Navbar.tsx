@@ -10,7 +10,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
   const [scrollY, setScrollY] = useState(0);
   
   // --- ÉTAT AUDIO ---
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -72,10 +72,11 @@ useEffect(() => {
   return (
     <>
       {/* Élément Audio Invisible */}
-      <audio
+<audio
         ref={audioRef}
-        src="/audio/ambiant_music.mp3"
+        src="https://res.cloudinary.com/dynpasxkm/video/upload/v1769512642/music_hero_pufd0r.mp3" 
         loop
+        preload="auto"
       />
 
       <nav
