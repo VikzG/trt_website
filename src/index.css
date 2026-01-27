@@ -15,7 +15,6 @@
   font-display: swap; /* Important pour que le navigateur utilise le fichier préchargé immédiatement */
 }
 
-
 .sound-cursor {
   position: fixed;
   width: 20px;

@@ -33,7 +33,7 @@ const Contact = () => {
       >
         <motion.h2
           variants={itemVariants}
-          className="text-5xl md:text-8xl font-Vogue mb-10 leading-[1.1] tracking-tighter"
+          className="text-5xl md:text-8xl py-4 font-Vogue mt-10 mb-10 leading-tight tracking-tighter"
         >
           Prêt à définir <br />
           <span>votre signature sonore ?</span>
