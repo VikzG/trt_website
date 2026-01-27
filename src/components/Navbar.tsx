@@ -8,61 +8,108 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ scrollToSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  
-  // --- ÉTAT AUDIO ---
-  const [isPlaying, setIsPlaying] = useState(true);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // --- ÉTAT AUDIO ---
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const wasPlayingBeforeModal = useRef(false);
+
+  // --- EFFET GLOBAL (Scroll + Audio Events + Autoplay) ---
   useEffect(() => {
+    // 1. Gestion du Scroll
     const handleScroll = () => setScrollY(window.scrollY);
+
+    // 2. Gestion du Portfolio (Mute/Unmute)
+    const muteBackgroundMusic = () => {
+      if (audioRef.current) {
+        wasPlayingBeforeModal.current = !audioRef.current.paused;
+        audioRef.current.volume = 0;
+        setIsPlaying(false);
+      }
+    };
+
+    const unmuteBackgroundMusic = () => {
+      if (audioRef.current && wasPlayingBeforeModal.current) {
+        audioRef.current.volume = 1;
+        setIsPlaying(true);
+        audioRef.current.play().catch(() => {});
+      }
+    };
+
+    // 3. Autoplay au premier clic (Filet de sécurité)
+    const autoPlayAudio = (e: MouseEvent) => {
+      // Si on clique sur un bouton (comme le bouton son), on laisse toggleAudio gérer
+      if ((e.target as HTMLElement).closest("button")) return;
+
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            window.removeEventListener("click", autoPlayAudio);
+          })
+          .catch(() => {
+            // Échec silencieux si le navigateur bloque encore
+            setIsPlaying(false);
+          });
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("portfolioPlay", muteBackgroundMusic);
+    window.addEventListener("portfolioPause", unmuteBackgroundMusic);
+    window.addEventListener("click", autoPlayAudio);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("portfolioPlay", muteBackgroundMusic);
+      window.removeEventListener("portfolioPause", unmuteBackgroundMusic);
+      window.removeEventListener("click", autoPlayAudio);
+    };
   }, []);
 
+  // --- EFFET SCROLL LOCK (Menu ouvert) ---
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
   }, [isMenuOpen]);
 
-const toggleAudio = () => {
+  // --- FONCTION TOGGLE MANUEL ---
+  const toggleAudio = () => {
     if (!audioRef.current) return;
 
     if (audioRef.current.paused) {
-      audioRef.current.play()
+      audioRef.current
+        .play()
         .then(() => setIsPlaying(true))
-        .catch(err => console.log("Erreur play:", err));
+        .catch((err) => console.log("Erreur play manuel:", err));
     } else {
       audioRef.current.pause();
       setIsPlaying(false);
     }
   };
 
-useEffect(() => {
-    const autoPlayAudio = () => {
-      // On ne tente l'autoplay que si la musique ne joue pas DU TOUT
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current.play()
-          .then(() => {
-            setIsPlaying(true);
-            // UNE FOIS QUE ÇA JOUE, on supprime l'écouteur définitivement
-            window.removeEventListener("click", autoPlayAudio);
-          })
-          .catch((err) => console.log("Attente interaction utilisateur..."));
-      }
-    };
-
-    window.addEventListener("click", autoPlayAudio);
-    return () => window.removeEventListener("click", autoPlayAudio);
-  }, []); // On laisse le tableau de dépendances vide ici
-
+  // --- VARIANTS & ITEMS ---
   const menuVariants: Variants = {
-    closed: { opacity: 0, transition: { duration: 0.3, ease: "easeInOut", when: "afterChildren" } },
-    opened: { opacity: 1, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1], when: "beforeChildren" } },
+    closed: {
+      opacity: 0,
+      transition: { duration: 0.3, ease: "easeInOut", when: "afterChildren" },
+    },
+    opened: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+        when: "beforeChildren",
+      },
+    },
   };
 
   const linkVariants: Variants = {
     closed: { opacity: 0, y: 15, filter: "blur(4px)" },
     opened: (i: number) => ({
-      opacity: 1, y: 0, filter: "blur(0px)",
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
       transition: { delay: i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] },
     }),
   };
@@ -72,9 +119,9 @@ useEffect(() => {
   return (
     <>
       {/* Élément Audio Invisible */}
-<audio
+      <audio
         ref={audioRef}
-        src="https://res.cloudinary.com/dynpasxkm/video/upload/v1769512642/music_hero_pufd0r.mp3" 
+        src="https://res.cloudinary.com/dynpasxkm/video/upload/v1769512642/music_hero_pufd0r.mp3"
         loop
         preload="auto"
       />
@@ -87,7 +134,6 @@ useEffect(() => {
         }`}
       >
         <div className="max-w-[95%] mx-auto px-8 flex justify-between items-center">
-          
           {/* Logo */}
           <div
             onClick={() => {
@@ -101,7 +147,7 @@ useEffect(() => {
 
           <div className="flex items-center space-x-8">
             {/* --- WAVE AUDIO ICON --- */}
-            <button 
+            <button
               onClick={toggleAudio}
               className="flex items-end justify-center space-x-[3px] h-5 cursor-pointer group"
               title={isPlaying ? "Couper le son" : "Activer le son"}
@@ -117,7 +163,7 @@ useEffect(() => {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className={`w-[2px] bg-white group-hover:bg-gray-400 transition-colors ${!isPlaying && 'opacity-50'}`}
+                  className={`w-[2px] bg-white group-hover:bg-gray-400 transition-colors ${!isPlaying && "opacity-50"}`}
                 />
               ))}
             </button>
@@ -129,11 +175,19 @@ useEffect(() => {
             >
               <div className="flex flex-col items-end space-y-2">
                 <motion.span
-                  animate={isMenuOpen ? { rotate: 45, y: 5, width: "32px" } : { rotate: 0, y: 0, width: "32px" }}
+                  animate={
+                    isMenuOpen
+                      ? { rotate: 45, y: 5, width: "32px" }
+                      : { rotate: 0, y: 0, width: "32px" }
+                  }
                   className="h-px bg-white block"
                 />
                 <motion.span
-                  animate={isMenuOpen ? { rotate: -45, y: -5, width: "32px" } : { rotate: 0, y: 0, width: "20px" }}
+                  animate={
+                    isMenuOpen
+                      ? { rotate: -45, y: -5, width: "32px" }
+                      : { rotate: 0, y: 0, width: "20px" }
+                  }
                   className="h-px bg-white block"
                 />
               </div>
@@ -146,7 +200,10 @@ useEffect(() => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial="closed" animate="opened" exit="closed" variants={menuVariants}
+            initial="closed"
+            animate="opened"
+            exit="closed"
+            variants={menuVariants}
             className="fixed inset-0 bg-black z-[50] flex flex-col justify-center items-center"
           >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -156,7 +213,9 @@ useEffect(() => {
             <div className="flex flex-col space-y-8 md:space-y-12 text-center relative z-10">
               {menuItems.map((item, i) => (
                 <motion.button
-                  key={item} custom={i} variants={linkVariants}
+                  key={item}
+                  custom={i}
+                  variants={linkVariants}
                   onClick={() => {
                     scrollToSection(item.toLowerCase());
                     setIsMenuOpen(false);
@@ -172,7 +231,9 @@ useEffect(() => {
             </div>
 
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 0.4 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
               transition={{ delay: 0.1 }}
               className="absolute bottom-12 text-white font-Vogue tracking-[0.6em] text-[10px] md:text-xs"
             >

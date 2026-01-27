@@ -28,6 +28,14 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
     },
   };
 
+  const handleItemClick = (item: any) => {
+    // 1. On envoie l'événement pour couper la musique de la Navbar
+    window.dispatchEvent(new Event("portfolioPlay"));
+    
+    // 2. On ouvre la modale normalement
+    openModal(item);
+  };
+
   return (
     <section id="créations" className="py-24 md:py-32 bg-[#fafafa]">
       <div className="max-w-[95%] mx-auto px-6">
@@ -75,7 +83,7 @@ const PortfolioSection: React.FC<PortfolioSectionProps> = ({
               variants={itemVariants}
               className="w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]"
             >
-              <PortfolioCard item={item} onOpen={openModal} />
+              <PortfolioCard item={item} onOpen={() => handleItemClick(item)} />
             </motion.div>
           ))}
         </motion.div>

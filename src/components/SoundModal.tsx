@@ -17,13 +17,25 @@ interface SoundModalProps {
 }
 
 const SoundModal: React.FC<SoundModalProps> = ({ data, isOpen, onClose }) => {
-  // Empêcher le scroll quand la modale est ouverte
+// Gestion des effets secondaires à l'ouverture/fermeture
   useEffect(() => {
     if (isOpen) {
+      // 1. Bloquer le scroll
       document.body.style.overflow = "hidden";
+      // 2. Couper la musique de fond
+      window.dispatchEvent(new Event("portfolioPlay"));
     } else {
+      // 3. Rétablir le scroll
       document.body.style.overflow = "unset";
+      // 4. Relancer la musique de fond
+      window.dispatchEvent(new Event("portfolioPause"));
     }
+
+    // Nettoyage de sécurité si le composant est supprimé brusquement
+    return () => {
+      document.body.style.overflow = "unset";
+      window.dispatchEvent(new Event("portfolioPause"));
+    };
   }, [isOpen]);
 
   if (!data) return null;
