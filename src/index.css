@@ -9,7 +9,7 @@
 @font-face {
   font-family: 'vogue';
   /* Le chemin doit être identique au href du preload */
-  src: url('/fonts/Vogue.ttf') format('collection'); 
+  src: url('/fonts/Vogue.ttf') format("truetype"); 
   font-weight: normal;
   font-style: normal;
   font-display: swap; /* Important pour que le navigateur utilise le fichier préchargé immédiatement */
